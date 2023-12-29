@@ -76,7 +76,8 @@ fastify.register(require('@fastify/swagger'), {
             description: 'Find more info here'
         },
         hosts: [process.env.PUBLIC_HOSTNAME],
-        schemes: ['http', 'https'],
+        basePath: process.env.PUBLIC_BASE_PATH,
+        schemes: [process.env.PUBLIC_PROTOCOL],
         consumes: ['application/json'],
         produces: ['application/json'],
         tags: [],
