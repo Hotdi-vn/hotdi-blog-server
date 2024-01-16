@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  hotdi-blog-server:
+    container_name: hotdi-blog-server
+    image: hotdi-blog-server:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports:
+      - 3000:3000
+    env_file:
+      - .env.development 
+    networks:
+      - mongo_net
+    depends_on: 
+      - hotdi-blog-server-db
+  hotdi-blog-server-db:
+    image: mongo:4.2.3-bionic
+    container_name: hotdi-blog-server-db
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=test
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    volumes:
+      # seeding scripts
+      - ./mongo-entrypoint:/docker-entrypoint-initdb.d
+      # named volumes
+      - mongodb:/data/db
+      - mongoconfig:/data/configdb
+    networks:
+      - mongo_net
+volumes:
+  # default dir on Ubuntu: /var/lib/docker/volumes
+  mongodb:
+  mongoconfig:
+
+networks:
+  mongo_net:
+    driver: bridge
