@@ -6,8 +6,17 @@ class GetAllHandler {
 
     handler = async(request, reply) => {
         try{
-            const appCode = request.params.appCode;
             const filters = {};
+            const sort = {};
+            const search = '';
+            let skip = 0;
+            let limit = 0;
+            if (request.query.skip !== undefined) {
+                skip = parseInt(request.query.skip);
+            }
+            if (request.query.limit !== undefined) {
+                limit = parseInt(request.query.limit);
+            }
             if (this.options.authentication) {
                 const userId = request.user.id;
                 if (this.options.userKey){
@@ -15,8 +24,8 @@ class GetAllHandler {
                 }
             }
             this.service.settings.extractFilterDataFromSender(filters, request.query);
-            const data = await this.service.getAll(appCode, filters);
-            reply.code(200).send({ data: data.items });
+            const data = await this.service.getAll(filters, sort, search, skip, limit);
+            reply.code(200).send({ data: data.items, total: data.total });
         } catch (error) {
             let errorCode = 'GET_ALL_ERROR';
             if (error.code) {

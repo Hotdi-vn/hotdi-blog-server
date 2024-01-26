@@ -55,6 +55,8 @@ class Settings {
                 properties[key] = this.settings[key].schema;
             }
         }
+        properties.skip = { type: 'number', minimum: 0 };
+        properties.limit = { type: 'number', maximum: 20 };
         return { type: 'object', properties, required }
     }
 

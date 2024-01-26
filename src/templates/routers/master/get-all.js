@@ -23,7 +23,10 @@ class GetAllRouter {
                         data: {
                             type: 'array',
                             items: this.settings.getViewSchema()
-                        }
+                        },
+                        skip: { type: 'number' },
+                        limit: { type: 'number' },
+                        total: { type: 'number' },
                     },
                 },
                 400: {
