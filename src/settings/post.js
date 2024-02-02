@@ -20,6 +20,12 @@ class Post extends require('../templates/settings/master') {
                 insert: true,
                 update: true
             },
+            imageUrls: {
+                schema: { type: 'array', items: { type: 'string' } },
+                model: { type: Array, default: [] },
+                insert: true,
+                update: true
+            },
             createdBy: {
                 schema: { type: 'string' },
                 model: { type: String }
